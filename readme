@@ -1,0 +1,61 @@
+# Hotel Management System
+
+## Descrição
+
+Este projeto é um sistema de gerenciamento de hotel que inclui tabelas para hospedes, quartos e reservas. O banco de dados permite o gerenciamento de informações sobre os hóspedes, quartos disponíveis e reservas feitas.
+
+## Estrutura do Banco de Dados
+
+### Tabelas
+
+1. **Hospedes**
+   - `id_hospede` (INT, PRIMARY KEY, AUTO_INCREMENT): Identificador único do hóspede.
+   - `nome` (VARCHAR(100)): Nome do hóspede.
+   - `telefone` (VARCHAR(15)): Telefone de contato do hóspede.
+   - `email` (VARCHAR(100)): Endereço de e-mail do hóspede.
+
+2. **Quartos**
+   - `id_quarto` (INT, PRIMARY KEY, AUTO_INCREMENT): Identificador único do quarto.
+   - `numero` (INT, UNIQUE): Número do quarto.
+   - `tipo_quarto` (VARCHAR(50)): Tipo de quarto (e.g., Simples, Duplo, Luxo, etc.).
+   - `preco` (DECIMAL(10,2)): Preço do quarto por noite.
+
+3. **Reservas**
+   - `id_reservas` (INT, PRIMARY KEY, AUTO_INCREMENT): Identificador único da reserva.
+   - `id_hospede` (INT): Identificador do hóspede (chave estrangeira).
+   - `id_quarto` (INT): Identificador do quarto (chave estrangeira).
+   - `data_checkin` (DATE): Data de check-in.
+   - `data_checkout` (DATE): Data de check-out.
+
+## Comandos SQL
+
+### Criação do Banco de Dados e Tabelas
+
+```sql
+DROP DATABASE IF EXISTS HotelManagementSystem;
+CREATE DATABASE HotelManagementSystem;
+USE HotelManagementSystem;
+
+CREATE TABLE Hospedes (
+    id_hospede INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    telefone VARCHAR(15),
+    email VARCHAR(100)
+);
+
+CREATE TABLE Quartos (
+    id_quarto INT AUTO_INCREMENT PRIMARY KEY,
+    numero INT NOT NULL UNIQUE,
+    tipo_quarto VARCHAR(50),
+    preco DECIMAL(10,2)
+);
+
+CREATE TABLE Reservas (
+    id_reservas INT AUTO_INCREMENT PRIMARY KEY,
+    id_hospede INT,
+    id_quarto INT,
+    data_checkin DATE NOT NULL,
+    data_checkout DATE NOT NULL,
+    FOREIGN KEY (id_hospede) REFERENCES Hospedes(id_hospede),
+    FOREIGN KEY (id_quarto) REFERENCES Quartos(id_quarto)
+);
