@@ -1,3 +1,5 @@
+DROP DATABASE HotelManagementSystem;
+
 CREATE DATABASE HotelManagementSystem;
 
 USE HotelManagementSystem;
@@ -12,7 +14,7 @@ CREATE TABLE Hospedes (
 CREATE TABLE Quartos (
     id_quarto INT AUTO_INCREMENT PRIMARY KEY,
     numero INT NOT NULL UNIQUE,
-    tipo VARCHAR(50),
+    tipo_quarto VARCHAR(50),
     preco DECIMAL(10,2)
 );
 
@@ -27,36 +29,51 @@ CREATE TABLE Reservas (
 );
 
 INSERT INTO Hospedes (nome, telefone, email) VALUES
-('Alice Moura','4812345678','alice.moura@gmail.com'),
-('Betina Santos','4891011121','betina.santos@gmail.com),
-('Felipe Neto','4831415161','felipe.neto@gmail.com'),
-('Julia Alves','4871819202','julia.alves@gmail.com'),
-('Igor Souza','4812223242','igor.souza@gmail.com');
+('Alice Moura', '4812345678', 'alice.moura@gmail.com'),
+('Betina Santos', '4891011121', 'betina.santos@gmail.com'),
+('Felipe Neto', '4831415161', 'felipe.neto@gmail.com'),
+('Julia Alves', '4871819202', 'julia.alves@gmail.com'),
+('Igor Souza', '4812223242', 'igor.souza@gmail.com');
 
-INSERT INTO Quartos (numero, tipo, preco) VALUES
-(101,'Suite',250.00),
-(102,'Single',100.00),
-(103,'Double',150.00),
-(104,'Suite',250.00),
-(105,'Single',100.00);
+SELECT * FROM quartos;
+
+
+INSERT INTO quartos (id_quarto, tipo_quarto, preco, numero) VALUES
+(101, 'Simples', 100.00, 1),
+(102, 'Duplo', 150.00, 2),
+(103, 'Luxo', 200.00, 3),
+(104, 'Suite', 250.00, 4),
+(105, 'Presidencial', 300.00, 5);
+
 
 INSERT INTO Reservas (id_hospede, id_quarto, data_checkin, data_checkout) VALUES
-(1,101,'2024-11-30','2024-12-03'),
-(2,102,'2024-08-22','2024-08-25'),
-(3,103,'2024-04-03','2024-04-07'),
-(4,104,'2024-01-22','2024-01-24'),
-(5,105,'2024-11-03','2024-11-06');
+(1, 101, '2024-11-30', '2024-12-03'),
+(2, 102, '2024-08-22', '2024-08-25'),
+(3, 103, '2024-04-03', '2024-04-07'),
+(4, 104, '2024-01-22', '2024-01-24'),
+(5, 105, '2024-11-03', '2024-11-06');
 
-SELECT h.nome AS Hospede,q.numero AS Quarto, q.tipo AS Tipo, q.preco AS Preco,r.data_checkin AS Checkin, r.data_checkout AS Checkout
+
+SELECT h.nome AS Hospede, 
+       q.numero AS Quarto, 
+       q.tipo_quarto AS Tipo, 
+       q.preco AS Preco, 
+       r.data_checkin AS Checkin, 
+       r.data_checkout AS Checkout
 FROM Reservas r
 JOIN Hospedes h ON r.id_hospede = h.id_hospede
-JOIN Quartos q ON r. id_quarto = q. id_quarto;
+JOIN Quartos q ON r.id_quarto = q.id_quarto
+LIMIT 0, 1000;
 
-SELECT q.numero AS Quarto, q.tipo AS Tipo, q.preco AS Preco
+
+SELECT q.numero AS Quarto, 
+       q.tipo_quarto AS Tipo, 
+       q.preco AS Preco
 FROM Quartos q
-LEFT JOIN Reservas r ON q.id_quarto = r..id_quarto
+LEFT JOIN Reservas r ON q.id_quarto = r.id_quarto
 AND (r.data_checkin <= '2024-08-18' AND r.data_checkout >= '2024-08-22')
-WHERE r. id_quarto IS NULL;
+WHERE r.id_quarto IS NULL;
+
 
 UPDATE Hospedes
 SET telefone = '4891775898',email = 'alice.moura'
@@ -66,14 +83,25 @@ UPDATE Quartos
 SET preco = 210.00
 WHERE id_quarto = 101;
 
+DESCRIBE Reservas;
+
 DELETE FROM Reservas
-WHERE id_reserva = 4;
+WHERE id_reservas = 4;
+
+DELETE FROM Reservas
+WHERE id_hospede = 5;
 
 DELETE FROM Hospedes
 WHERE id_hospede = 5;
 
-DELETE FROM Reservas
+DESCRIBE Hospedes;
+
+SHOW COLUMNS FROM Hospedes;
+
+DELETE FROM Hospedes
 WHERE id_hospede = 5;
+
+
 
 
 
